@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SOUTHEASTERN COLLEGE ATTENDANCE SYSTEM.</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f6f9;
+        color: #222;
+    }
+
+    header { 
+    background: #198754; 
+    color: white; 
+    height: 150px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.school-logo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.header-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 70%;
+}
+
+header h1 { 
+    margin: 0; 
+    font-size: 28px; 
+} 
+ 
+header p { 
+    margin: 7px 0 0; 
+    opacity: 0.9; 
+}
+
+    .container {
+        max-width: 1400px;
+        margin: 25px auto;
+        padding: 0 20px;
+    }
+
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+    .card h3 {
+        margin: 0;
+        color: #666;
+        font-size: 15px;
+    }
+
+    .card .number {
+        font-size: 30px;
+        font-weight: bold;
+        color: #1f4e78;
+        margin-top: 8px;
+    }
+
+    .form-container {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
+
+    .form-container h2 {
+        margin-top: 0;
+        color: #1f4e78;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1.5fr 1fr;
+        gap: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #1f4e78;
+    }
+
+    .buttons {
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    button {
+        border: none;
+        padding: 12px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background: #1f4e78;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #163a5c;
+    }
+
+    .btn-success {
+        background: #198754;
+        color: white;
+    }
+
+    .btn-warning {
+        background: #f0ad4e;
+        color: white;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .records-container {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .records-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+
+    .records-header h2 {
+        margin: 0;
+        color: #1f4e78;
+    }
+
+    .search-box {
+        width: 350px;
+        max-width: 100%;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        max-height: 550px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+    }
+
+    th {
+		background: #198754;
+		color: white;
+		padding: 12px;
+		text-align: left;
+		position: sticky;
+		top: 0;
+		z-index: 2;
+}
+
+    td {
+        padding: 11px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+        background: #f1f5f9;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+    }
+
+    footer {
+        text-align: center;
+        padding: 25px;
+        color: #777;
+        font-size: 13px;
+    }
+
+    .status {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+    }
+
+    .status.success {
+        display: block;
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .status.error {
+        display: block;
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    @media (max-width: 900px) {
+        .dashboard {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .dashboard {
+            grid-template-columns: 1fr;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header class="main-header">
+    <img src="logo.jpg" alt="School Logo" class="school-logo">
+
+    <div class="header-text">
+        <h1>School Event Attendance System</h1>
+        <p>Student Attendance Registration</p>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+
+    <div class="card">
+        <h3>Total Attendance</h3>
+        <div class="number" id="totalCount">0</div>
+    </div>
+
+    <div class="card">
+        <h3>1st Year</h3>
+        <div class="number" id="firstYearCount">0</div>
+    </div>
+
+    <div class="card">
+        <h3>2nd Year</h3>
+        <div class="number" id="secondYearCount">0</div>
+    </div>
+
+    <div class="card">
+        <h3>3rd Year</h3>
+        <div class="number" id="thirdYearCount">0</div>
+    </div>
+
+    <div class="card">
+        <h3>4th Year</h3>
+        <div class="number" id="fourthYearCount">0</div>
+    </div>
+	
+
+<div class="card">
+    <h3>AB-ENGLISH</h3>
+    <div class="number" id="abEnglishCount">0</div>
+</div>
+
+<div class="card">
+    <h3>AB-HISTORY</h3>
+    <div class="number" id="abHistoryCount">0</div>
+</div>
+
+<div class="card">
+    <h3>BSED-ENGLISH</h3>
+    <div class="number" id="bsedEnglishCount">0</div>
+</div>
+
+<div class="card">
+    <h3>BSED-FILIPINO</h3>
+    <div class="number" id="bsedFilipinoCount">0</div>
+</div>
+
+<div class="card">
+    <h3>BSED-SOC.STUD</h3>
+    <div class="number" id="bsedSocStudCount">0</div>
+</div>
+	
+
+
+</div>
+
+    <!-- REGISTRATION FORM -->
+    <div class="form-container">
+
+        <h2>Student Attendance</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label for="studentId">Student ID</label>
+                <input
+                    type="text"
+                    id="studentId"
+                    placeholder="Enter Student ID"
+                    autocomplete="off">
+            </div>
+
+            <div>
+                <label for="studentName">Student Name</label>
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Last Name, First Name Middle Name"
+                    autocomplete="off">
+            </div>
+
+            <div>
+					<label for="course">Course</label>
+					<select id="course">
+					<option value="">Select Course</option>
+					<option value="BSED-ENGLISH">BSED-ENGLISH</option>
+					<option value="BSED-FILIPINO">BSED-FILIPINO</option>
+					<option value="BSED-SOC.STUD">BSED-SOC.STUD</option>
+					<option value="AB-ENGLISH">AB-ENGLISH</option>
+					<option value="AB-HISTORY">AB-HISTORY</option>
+					
+    </select>
+</div>
+
+            <div>
+                <label for="yearLevel">Year Level</label>
+                <select id="yearLevel">
+                    <option value="">Select Year</option>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="buttons">
+
+            <button class="btn-primary" onclick="timeIn()">
+                TIME IN
+            </button>
+
+            <button class="btn-success" onclick="exportCSV()">
+                EXPORT TO EXCEL
+            </button>
+
+            <button class="btn-secondary" onclick="document.getElementById('csvFile').click()">
+                IMPORT CSV
+            </button>
+
+            <button class="btn-warning" onclick="clearForm()">
+                CLEAR FORM
+            </button>
+
+            <button class="btn-danger" onclick="deleteAllRecords()">
+                DELETE ALL
+            </button>
+
+        </div>
+
+        <div id="statusMessage" class="status"></div>
+
+        <input
+            type="file"
+            id="csvFile"
+            accept=".csv"
+            style="display:none"
+            onchange="importCSV(event)">
+
+    </div>
+
+    <!-- RECORDS -->
+    <div class="records-container">
+
+        <div class="records-header">
+
+            <h2>Attendance Records</h2>
+
+            <input
+                type="text"
+                id="searchBox"
+                class="search-box"
+                placeholder="Search ID, name, course, year..."
+                onkeyup="displayRecords()">
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Course</th>
+                        <th>Year Level</th>
+                        <th>Date</th>
+                        <th>Time In</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="attendanceTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    School Event Attendance System
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+/*
+============================================================
+ATTENDANCE SYSTEM - ONLINE DATABASE VERSION
+Database: Supabase
+IMPORTANT:
+1. Replace SUPABASE_URL and SUPABASE_ANON_KEY below.
+2. The database table and RLS policies must be created first.
+3. Never put a Supabase service_role/secret key in this file.
+============================================================
+*/
+
+// ============================================================
+// SUPABASE CONNECTION
+// ============================================================
+
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+// ============================================================
+// ADMIN LOGIN
+// ============================================================
+
+const ADMIN_PASSWORD = "123";
+let isAdminLoggedIn = false;
+
+function adminLogin() {
+    const password = prompt("Admin Password:");
+
+    if (password === ADMIN_PASSWORD) {
+        isAdminLoggedIn = true;
+        alert("Admin login successful.");
+    } else {
+        alert("Invalid admin password.");
+        isAdminLoggedIn = false;
+    }
+}
+
+// ============================================================
+// ATTENDANCE RECORDS
+// ============================================================
+
+let attendanceRecords = [];
+
+// ============================================================
+// LOAD RECORDS FROM SUPABASE
+// ============================================================
+
+async function loadRecords() {
+    const { data, error } = await supabaseClient
+        .from("attendance")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+    if (error) {
+        console.error("Load error:", error);
+        showStatus(
+            "Could not load attendance records. Check your Supabase setup.",
+            "error"
+        );
+        return;
+    }
+
+    attendanceRecords = data || [];
+    displayRecords();
+    updateDashboard();
+}
+
+// ============================================================
+// TIME IN
+// ============================================================
+
+async function timeIn() {
+
+    const studentId =
+        document.getElementById("studentId").value.trim();
+
+    const studentName =
+        document.getElementById("studentName").value.trim();
+
+    const course =
+        document.getElementById("course").value.trim();
+
+    const yearLevel =
+        document.getElementById("yearLevel").value;
+
+    if (!studentId || !studentName || !course || !yearLevel) {
+        showStatus(
+            "Please complete all student information.",
+            "error"
+        );
+        return;
+    }
+
+    // Check current records first
+    const duplicate = attendanceRecords.find(
+        record =>
+            String(record.student_id).toLowerCase() ===
+            studentId.toLowerCase()
+    );
+
+    if (duplicate) {
+        showStatus(
+            "This Student ID has already timed in.",
+            "error"
+        );
+        return;
+    }
+
+    const now = new Date();
+
+    const date =
+        now.toLocaleDateString("en-PH", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        });
+
+    const time =
+        now.toLocaleTimeString("en-PH", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true
+        });
+
+    const record = {
+        student_id: studentId,
+        student_name: studentName,
+        course: course,
+        year_level: yearLevel,
+        date: date,
+        time_in: time
+    };
+
+    const { error } = await supabaseClient
+        .from("attendance")
+        .insert([record]);
+
+    if (error) {
+        console.error("Insert error:", error);
+
+        if (error.code === "23505") {
+            showStatus(
+                "This Student ID has already timed in.",
+                "error"
+            );
+        } else {
+            showStatus(
+                "Could not save attendance. " + error.message,
+                "error"
+            );
+        }
+
+        return;
+    }
+
+    showStatus(
+        "Attendance successfully recorded for " +
+        studentName +
+        " at " +
+        time,
+        "success"
+    );
+
+    clearForm();
+
+    await loadRecords();
+}
+
+// ============================================================
+// DISPLAY RECORDS
+// ============================================================
+
+function displayRecords() {
+
+    const table =
+        document.getElementById("attendanceTable");
+
+    const search =
+        document.getElementById("searchBox")
+        .value
+        .toLowerCase();
+
+    table.innerHTML = "";
+
+    const filteredRecords =
+        attendanceRecords.filter(record =>
+
+            String(record.student_id || "")
+                .toLowerCase()
+                .includes(search) ||
+
+            String(record.student_name || "")
+                .toLowerCase()
+                .includes(search) ||
+
+            String(record.course || "")
+                .toLowerCase()
+                .includes(search) ||
+
+            String(record.year_level || "")
+                .toLowerCase()
+                .includes(search)
+        );
+
+    if (filteredRecords.length === 0) {
+
+        table.innerHTML =
+            '<tr><td colspan="8" class="empty">' +
+            'No attendance records found.' +
+            '</td></tr>';
+
+        return;
+    }
+
+    filteredRecords.forEach((record, index) => {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${index + 1}</td>
+
+            <td>${escapeHTML(record.student_id)}</td>
+
+            <td>${escapeHTML(record.student_name)}</td>
+
+            <td>${escapeHTML(record.course)}</td>
+
+            <td>${escapeHTML(record.year_level)}</td>
+
+            <td>${escapeHTML(record.date)}</td>
+
+            <td>${escapeHTML(record.time_in)}</td>
+
+            <td>
+                <button
+                    class="btn-danger"
+                    onclick="deleteRecord('${record.id}')">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        table.appendChild(row);
+    });
+}
+
+// ============================================================
+// DELETE ONE RECORD
+// ============================================================
+
+async function deleteRecord(id) {
+
+    const password = prompt("Enter Admin Password:");
+
+    if (password !== ADMIN_PASSWORD) {
+        alert("Incorrect Admin Password. Deletion cancelled.");
+        return;
+    }
+
+    const record =
+        attendanceRecords.find(r => String(r.id) === String(id));
+
+    if (!record) {
+        return;
+    }
+
+    const confirmDelete = confirm(
+        "Delete attendance record for " +
+        record.student_name +
+        "?"
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("attendance")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        console.error("Delete error:", error);
+        showStatus(
+            "Could not delete the record. " + error.message,
+            "error"
+        );
+        return;
+    }
+
+    showStatus(
+        "Attendance record deleted.",
+        "success"
+    );
+
+    await loadRecords();
+}
+
+// ============================================================
+// DELETE ALL
+// ============================================================
+
+async function deleteAllRecords() {
+
+    if (!isAdminLoggedIn) {
+        adminLogin();
+
+        if (!isAdminLoggedIn) {
+            return;
+        }
+    }
+
+    if (attendanceRecords.length === 0) {
+
+        showStatus(
+            "There are no attendance records to delete.",
+            "error"
+        );
+
+        return;
+    }
+
+    const confirmation = confirm(
+        "WARNING!\n\n" +
+        "This will permanently delete ALL " +
+        attendanceRecords.length +
+        " attendance records from the ONLINE DATABASE.\n\n" +
+        "Continue?"
+    );
+
+    if (!confirmation) {
+        return;
+    }
+
+    const secondConfirmation = confirm(
+        "Are you REALLY sure?\n\n" +
+        "Make sure you already exported your attendance report."
+    );
+
+    if (!secondConfirmation) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("attendance")
+        .delete()
+        .not("id", "is", null);
+
+    if (error) {
+        console.error("Delete all error:", error);
+        showStatus(
+            "Could not delete all records. " + error.message,
+            "error"
+        );
+        return;
+    }
+
+    showStatus(
+        "All attendance records have been deleted.",
+        "success"
+    );
+
+    await loadRecords();
+}
+
+// ============================================================
+// CLEAR FORM
+// ============================================================
+
+function clearForm() {
+
+    document.getElementById("studentId").value = "";
+    document.getElementById("studentName").value = "";
+    document.getElementById("course").value = "";
+    document.getElementById("yearLevel").value = "";
+
+    document.getElementById("studentId").focus();
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+
+function updateDashboard() {
+
+    document.getElementById("totalCount").textContent =
+        attendanceRecords.length;
+
+    document.getElementById("firstYearCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.year_level || "").trim() === "1st Year"
+        ).length;
+
+    document.getElementById("secondYearCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.year_level || "").trim() === "2nd Year"
+        ).length;
+
+    document.getElementById("thirdYearCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.year_level || "").trim() === "3rd Year"
+        ).length;
+
+    document.getElementById("fourthYearCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.year_level || "").trim() === "4th Year"
+        ).length;
+
+    document.getElementById("abEnglishCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.course || "").trim().toUpperCase() === "AB-ENGLISH"
+        ).length;
+
+    document.getElementById("abHistoryCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.course || "").trim().toUpperCase() === "AB-HISTORY"
+        ).length;
+
+    document.getElementById("bsedEnglishCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.course || "").trim().toUpperCase() === "BSED-ENGLISH"
+        ).length;
+
+    document.getElementById("bsedFilipinoCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.course || "").trim().toUpperCase() === "BSED-FILIPINO"
+        ).length;
+
+    document.getElementById("bsedSocStudCount").textContent =
+        attendanceRecords.filter(r =>
+            String(r.course || "").trim().toUpperCase() === "BSED-SOC.STUD"
+        ).length;
+}
+
+// ============================================================
+// EXPORT CSV
+// ============================================================
+
+function exportCSV() {
+
+    if (attendanceRecords.length === 0) {
+
+        showStatus(
+            "There are no attendance records to export.",
+            "error"
+        );
+
+        return;
+    }
+
+    let csv = "\uFEFF";
+
+    csv +=
+        "No.,Student ID,Student Name,Course,Year Level,Date,Time In\n";
+
+    attendanceRecords.forEach((record, index) => {
+
+        csv +=
+            '"' + (index + 1) + '",' +
+            '"' + csvEscape(record.student_id) + '",' +
+            '"' + csvEscape(record.student_name) + '",' +
+            '"' + csvEscape(record.course) + '",' +
+            '"' + csvEscape(record.year_level) + '",' +
+            '"' + csvEscape(record.date) + '",' +
+            '"' + csvEscape(record.time_in) + '"' +
+            "\n";
+    });
+
+    const blob =
+        new Blob(
+            [csv],
+            { type: "text/csv;charset=utf-8;" }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    const now = new Date();
+
+    const filename =
+        "Attendance_Report_" +
+        now.getFullYear() +
+        "-" +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(now.getDate()).padStart(2, "0") +
+        ".csv";
+
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+    showStatus(
+        "Attendance report exported successfully.",
+        "success"
+    );
+}
+
+// ============================================================
+// CSV ESCAPE
+// ============================================================
+
+function csvEscape(value) {
+    return String(value ?? "").replace(/"/g, '""');
+}
+
+// ============================================================
+// IMPORT CSV
+// ============================================================
+
+async function importCSV(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload = async function(e) {
+
+        const text =
+            e.target.result.replace(/^\uFEFF/, "");
+
+        const rows =
+            parseCSV(text);
+
+        if (rows.length < 2) {
+
+            showStatus(
+                "The CSV file does not contain enough data.",
+                "error"
+            );
+
+            return;
+        }
+
+        let imported = 0;
+        let duplicates = 0;
+
+        const recordsToInsert = [];
+
+        for (let i = 1; i < rows.length; i++) {
+
+            const row = rows[i];
+
+            if (row.length < 7) {
+                continue;
+            }
+
+            const studentId =
+                row[1].trim();
+
+            if (!studentId) {
+                continue;
+            }
+
+            const duplicate =
+                attendanceRecords.some(
+                    r =>
+                        String(r.student_id).toLowerCase() ===
+                        studentId.toLowerCase()
+                ) ||
+                recordsToInsert.some(
+                    r =>
+                        r.student_id.toLowerCase() ===
+                        studentId.toLowerCase()
+                );
+
+            if (duplicate) {
+                duplicates++;
+                continue;
+            }
+
+            recordsToInsert.push({
+                student_id: studentId,
+                student_name: row[2].trim(),
+                course: row[3].trim(),
+                year_level: row[4].trim(),
+                date: row[5].trim(),
+                time_in: row[6].trim()
+            });
+        }
+
+        if (recordsToInsert.length > 0) {
+
+            const { error } = await supabaseClient
+                .from("attendance")
+                .insert(recordsToInsert);
+
+            if (error) {
+                console.error("Import error:", error);
+                showStatus(
+                    "Import failed. " + error.message,
+                    "error"
+                );
+                return;
+            }
+
+            imported = recordsToInsert.length;
+        }
+
+        await loadRecords();
+
+        showStatus(
+            "Import completed. " +
+            imported +
+            " records imported. " +
+            duplicates +
+            " duplicate records skipped.",
+            "success"
+        );
+    };
+
+    reader.readAsText(file);
+
+    event.target.value = "";
+}
+
+// ============================================================
+// SIMPLE CSV PARSER
+// ============================================================
+
+function parseCSV(text) {
+
+    const rows = [];
+    let row = [];
+    let value = "";
+    let insideQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"' && insideQuotes && nextChar === '"') {
+            value += '"';
+            i++;
+        }
+        else if (char === '"') {
+            insideQuotes = !insideQuotes;
+        }
+        else if (char === "," && !insideQuotes) {
+            row.push(value);
+            value = "";
+        }
+        else if (
+            (char === "\n" || char === "\r") &&
+            !insideQuotes
+        ) {
+
+            if (char === "\r" && nextChar === "\n") {
+                i++;
+            }
+
+            row.push(value);
+            rows.push(row);
+            row = [];
+            value = "";
+        }
+        else {
+            value += char;
+        }
+    }
+
+    if (value.length > 0 || row.length > 0) {
+        row.push(value);
+        rows.push(row);
+    }
+
+    return rows;
+}
+
+// ============================================================
+// ESCAPE HTML
+// ============================================================
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+// ============================================================
+// STATUS MESSAGE
+// ============================================================
+
+function showStatus(message, type) {
+
+    const status =
+        document.getElementById("statusMessage");
+
+    status.textContent = message;
+
+    status.className =
+        "status " + type;
+
+    setTimeout(() => {
+        status.className = "status";
+    }, 4000);
+}
+
+// ============================================================
+// ENTER KEY
+// ============================================================
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+
+        const active =
+            document.activeElement;
+
+        if (
+            active.id === "studentId" ||
+            active.id === "studentName" ||
+            active.id === "course"
+        ) {
+            timeIn();
+        }
+    }
+});
+
+// ============================================================
+// REAL-TIME UPDATES
+// ============================================================
+
+function startRealtimeUpdates() {
+
+    supabaseClient
+        .channel("attendance-realtime")
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "attendance"
+            },
+            function() {
+                loadRecords();
+            }
+        )
+        .subscribe();
+}
+
+// ============================================================
+// INITIALIZE SYSTEM
+// ============================================================
+
+async function initializeSystem() {
+
+    await loadRecords();
+    startRealtimeUpdates();
+
+    document.getElementById("studentId").focus();
+}
+
+initializeSystem();
+
+</script>
+
+</body>
+</html>
